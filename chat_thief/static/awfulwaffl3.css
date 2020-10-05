@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria Hallelujah');
+
+html{
+    background-color: black; 
+    text-align: center; 
+}
+
+body {
+    text-transform: capitalize;
+}
+
+h1{font-family: 'Gloria Hallelujah';
+    font-size: 40px;
+    color: maroon;
+
+}
+h2 {
+    color: green;
+    text-decoration-color: maroon;
+    text-shadow: 3px 3px maroon;
+}
+h3 {color: blue;
+    font-variant-position: super;
+
+
+} 
+p { font-style: italic;
+    color: gold;

@@ -1,0 +1,69 @@
+<!doctype html> <title>Beginland</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/{{ winner }}.css">
+    <meta charset="utf-8" http-equiv="refresh" content="{{ refresh_time }}">
+</head>
+
+<body class="js_widgets">
+  <h1><a href="{{ base_url }}">BeginWorld Finance</a></h1>
+
+  <span class="tip">
+    Submit Your own 25-line, Vanilla JS only with:
+
+    <code>
+      !js LINK_TO_RAW_JS
+    </code>
+  </span>
+
+  <h2>Leaderboard</h2>
+
+    <ul>
+      {% for user, count in dev_leaderboard %}
+        <li>
+          <a href="{{ base_url }}/{{ user }}.html">
+            {{ user }} - {{ count }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  <h2>Available Widgets</h2>
+
+    {% for widget in widgets %}
+
+      <a href="{{ base_url }}/{{ widget['user'] }}.html"> {{ widget['user' ]}} - {{ widget['name']}}</a>
+      |
+      <a href="{{ base_url }}/js/{{ widget['name']}}.js"> CODE </a>
+      <br />
+      Approved: {{ widget['approved'] }}
+
+      <h4>Owners:</h4>
+
+      <ul>
+      {% for owner in widget['owners'] %}
+        <li>
+          <a href="{{ base_url }}/{{ owner }}.html">{{ owner }}</a>
+        </li>
+      {% endfor %}
+      </ul>
+
+      <br />
+      <hr />
+      <br />
+
+    {% endfor %}
+
+    <span class="tip">
+      To Purchase a Widget, in the Twitch Chat:
+      <code>
+        !buyjs WIDGET_NAME
+      </code>
+      Refer to the Widget Code for integration instructions
+
+    </span>
+
+</body>
+
+</html>

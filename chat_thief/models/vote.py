@@ -1,42 +1,49 @@
-DEFAULT_VOTES_DB_PATH = "db/votes.json"
-from chat_thief.models.database import db_table
+from typing import Optional, List, Any, Dict, Callable
+
+from tinydb import Query  # type: ignore
+
+from chat_thief.models.base_db_model import BaseDbModel
 from chat_thief.models.user import User
-
 from chat_thief.config.log import error, warning, success
-
-from tinydb import Query
-from chat_thief.models.base_model import BaseModel
+from chat_thief.models.transaction import transaction
 
 
-class Vote(BaseModel):
+class Vote(BaseDbModel):
     table_name = "votes"
     database_path = "db/votes.json"
 
+    def __init__(self, user: str, vote: Optional[str] = None):
+        self.user = user
+        self._vote = vote
+
+    def doc(self) -> Dict:
+        return {"user": self.user, "vote": self._vote}
+
     @classmethod
-    def peace_keepers(cls):
+    def peace_keepers(cls) -> List[str]:
         return [vote["user"] for vote in cls.db().search(Query().vote == "peace")]
 
     @classmethod
-    def revolutionaries(cls):
+    def revolutionaries(cls) -> List[str]:
         return [
             freedom_fighter["user"]
             for freedom_fighter in cls.db().search(Query().vote == "revolution")
         ]
 
     @classmethod
-    def voters(cls):
+    def voters(cls) -> List[str]:
         return [vote["user"] for vote in cls.db().all()]
 
     @classmethod
-    def fence_sitters(cls):
-        return list(set(User.all()) - set(cls.voters()))
+    def fence_sitters(cls) -> List[str]:
+        return list(set([user["name"] for user in User.all()]) - set(cls.voters()))
 
     # When theres a certain percentage of users
     # We are going to create 3 Users
     # Then we are going to vote, 2 times
     # and make sure the 2nd time triggers resolution
     @classmethod
-    def have_tables_turned(cls, threshold):
+    def have_tables_turned(cls, threshold: int) -> Optional[str]:
         rev_count = cls.revolution_count()
         peace_count = cls.peace_count()
 
@@ -47,28 +54,25 @@ class Vote(BaseModel):
             if peace_count >= threshold:
                 return "peace"
 
-        return False
+        return None
 
     @classmethod
-    def vote_count(cls):
+    def vote_count(cls) -> int:
         return len(cls.db().all())
 
     @classmethod
-    def revolution_count(cls):
+    def revolution_count(cls) -> int:
         return len(cls.revolutionaries())
 
     @classmethod
-    def peace_count(cls):
+    def peace_count(cls) -> int:
         return len(cls.peace_keepers())
 
-    def __init__(self, user):
-        self.user = user
-
-    def vote(self, vote):
+    def vote(self, vote: str) -> Dict["str", int]:
         user = self._find_user()
 
-        def user_vote(new_vote):
-            def transform(doc):
+        def user_vote(new_vote: str) -> Callable[[Dict], None]:
+            def transform(doc: Dict) -> None:
                 doc["vote"] = new_vote
 
             return transform
@@ -78,20 +82,17 @@ class Vote(BaseModel):
             self.db().update(user_vote(vote), Query().user == self.user)
         else:
             warning(f"NO Previous Vote for User {self.user}!")
-            from tinyrecord import transaction
 
+            self._vote = vote
             with transaction(self.db()) as tr:
-                tr.insert(self.doc(vote))
-            # self.doc(vote)
+                tr.insert(self.doc())
 
         return {"Revolution": self.revolution_count(), "Peace": self.peace_count()}
 
-    def doc(self, vote):
-        return {"user": self.user, "vote": vote}
-
-    def _find_user(self):
+    def _find_user(self) -> Optional[Dict]:
         user = self.db().search(Query().user == self.user)
 
         if user:
-            print("We Found a user!")
             return user[-1]
+        else:
+            return None

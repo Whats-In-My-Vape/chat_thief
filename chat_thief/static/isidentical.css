@@ -1,0 +1,49 @@
+html{
+    background-image:url('https://user-images.githubusercontent.com/47358913/83976033-0a87fd80-a900-11ea-8de7-1def45a939ed.png');
+    padding: 10rem;
+}
+body {
+  /* background-color: none..class{ */
+  background:rgba(0,0,0);
+  /* background: #000065; */
+  color: white;
+  font-size: 2em;
+  font-family: "Helvetica";
+}
+html:before {
+    content: url(https://user-images.githubusercontent.com/47358913/84156679-7b4f2700-aa72-11ea-86b9-6941710fef20.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+    html:after {
+content: url(https://render-tron.appspot.com/screenshot/https://github.com/isidentical?width=1920&height=1080);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 a, h2, h3{
+    text-decoration:none;
+    color:#0050ff;
+    text-align:center;
+    letter-spacing: 4px;
+}
+h1 {
+    display: none;
+}
+
+h2 {
+    font-size: .7em;
+}
+h3 {
+    font-size:.4em;
+}
+ul {
+    list-style-type: none;
+}
+li a {
+    color:#2457b4;
+    text-decoration:none;
+}
+

@@ -1,36 +1,123 @@
-# Twitch Python Chat bot that also manages a Command Economy
+# Welcome To BeginWorld™
 
-This started as a simple twitch chatbot, but has evolved into a Soundboard
-economy manager (More Details Below).
-
-## Bots in Action
-
-```bash
-# Main Bot collect and responding to chat commands
-python bot.py
-
-# Bot that will read out soundeffect requests from a file
-# And try to make them available
-python soundeffect_request_bot.py
-
-# Bot that will read out soundeffects from a file and play them
-python soundboard_bot.py
-
-# Bot that runs and give active chatters Street Cred on a regular basis
-python street_cred_bot.py
-
-# For testing
-python fake_bot.py -m "\!clap" -u beginbotbot
-```
+What started as a simple idea for a chat-controlled soundboard, has evolved
+into an entire economy with multiple ways of participating.
 
 ## What Is Going On During Your Stream
 
-There are over 300+ Soundeffects (added by users like you!), that area access
-through various commands, like: `!clap` or `!wow`
+There are over [1300+
+Soundeffects](https://github.com/davidbegin/twitch-soundboard) (added by users
+like you!), that area access
+through various commands, like:
 
-When you join the stream you have access to no sounds (except your theme song,
-if you have one). To get access to soundeffects, you just need to participate in
-our New Economy!
+```twitch chat
+!me
+!clap
+!wow
+```
+
+You can, earn, trade, steal, and gamble with these sounds.
+
+As you chat and participate in the stream you get access to more sounds by
+either the friends you make in chat, strategic bets and/or investments.
+
+## Other Ways to Participate
+
+We like to talk to about code on stream, and also want to encourage you to code
+as well! If you are looking to learn about code, and join a community, we have
+multiple ways you can influence and participate in the Stream.
+
+This entire system was largely influeced by Users partipating themselves.
+
+### Write CSS
+
+Type in the Chat:
+
+```twitch chat
+!me
+```
+
+To see your page [Example Page](https://mygeoangelfirespace.city/zanuss.html)
+
+You can style your page with:
+
+```twitch chat
+!css URL_TO_RAW_CSS
+```
+
+[Pastebin](https://pastebin.com/) or [Gitlab
+Snippets](https://gitlab.com/snippets/new) work great!
+
+**Note:** Make sure to link to the raw CSS. Typically the link will have "raw"
+in it.
+
+On the [Homepage](https://mygeoangelfirespace.city/) you will see a Homepage CSS
+Leaderboard, which lists the most popular user pages.
+
+You can vote for your favorite page with:
+
+```twitch chat
+!bestcss @user
+```
+
+The User with the most votes, controls the styling of the homepage and all
+shared pages. There is a list of all Users who have styled thier pages under "Stylish Users"
+on the [Homepage](https://mygeoangelfirespace.city/)
+
+### Write a Chat Bot
+
+Write **1** Bot in whatever language, to interact with the stream, potentially
+participate in Bot Survivor
+
+You must register your bot by telling Begin and the chat who your bot is.
+
+Violators will be banned.
+
+For More Details on Bots in BeginWorld see:
+[Bot Law](docs/BOT_LAW.md)
+
+### Write a JS Widget
+
+You can write a JS widget to be used on your page,
+and made available for purchase on other pages.
+
+The restrictions are:
+
+- 25 Lines of Code (Not minifier)
+- Vanilla JS only!
+
+We will make a "Widget Shop" Available, give creators
+a chance to sell their Widgets.
+
+When you submit a Widget, its Needs to be approved, by a number
+of reviewers.
+
+Reviewers: [
+  {"eno": True}
+]
+Approvers: []
+
+#### Why
+
+How can we simulate the smallest market for selling code.
+If you want to learn to code, its learning how to code
+and sell that code.
+
+### Add Sounds to the Stream
+
+```twitch chat
+!soundeffect YOUTUBE_URL command_name 00:00 00:04
+```
+
+[Youtube-DL](https://github.com/ytdl-org/youtube-dl)
+
+### Get Access to Sounds By Chatting
+
+!me
+!props
+!buy
+
+---
 
 ## New Economy
 
@@ -125,3 +212,9 @@ Check the soundboard leaderboard
 
 Show the Streamlords
 `!streamlords`
+
+---
+
+## Website
+
+<https://mygeoangelfirespace.city/>

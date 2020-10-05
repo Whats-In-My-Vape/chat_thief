@@ -1,18 +1,16 @@
+from urllib.parse import quote
+
 from chat_thief.commands.la_libre import LaLibre
 from chat_thief.config.stream_lords import STREAM_LORDS, STREAM_GODS
 from chat_thief.chat_parsers.command_parser import CommandParser
 from chat_thief.models.user import User
+from chat_thief.routers.base_router import BaseRouter
 
 
-class BasicInfoRouter:
-    def __init__(self, user, command, args=[]):
-        self.user = user
-        self.command = command
-        self.args = args
-
+class BasicInfoRouter(BaseRouter):
     def route(self):
         if self.command == "la_libre":
-            return LaLibre.inform()
+            return " | ".join(LaLibre.inform())
 
         if self.command == "streamlords":
             return " ".join(STREAM_LORDS)
@@ -32,7 +30,13 @@ class BasicInfoRouter:
                 return User(parser.target_user).bankrupt()
 
             if self.command == "paperup":
-                return User(parser.target_user).paperup()
+                if parser.target_user:
+                    return User(parser.target_user).paperup()
+                else:
+                    return "You need to specify who to Paperup"
 
     def _shoutout(self):
-        return f"Shoutout twitch.tv/{self.args[0]}"
+        user_path = self.args[0]
+        if user_path.startswith("@"):
+            user_path = user_path[1:]
+        return f"Shoutout twitch.tv/{quote(user_path)}"

@@ -8,6 +8,7 @@ from chat_thief.config.log import logger
 from chat_thief.config.twitch import TwitchConfig
 from chat_thief.command_router import CommandRouter
 
+BEGINBOTBOT = ":beginbotbot!beginbotbot@beginbotbot.tmi.twitch.tv"
 CONNECTION_DATA = ("irc.chat.twitch.tv", 6667)
 ENCODING = "utf-8"
 CHAT_MSG = "PRIVMSG"
@@ -15,7 +16,6 @@ ARE_YOU_ALIVE = "PING"
 I_AM_ALIVE = "PONG"
 
 config = TwitchConfig()
-
 
 async def pong(server: socket.socket) -> None:
     server.sendall(bytes(I_AM_ALIVE + "\r\n", ENCODING))
@@ -41,36 +41,41 @@ def irc_handshake(server: socket.socket) -> None:
 
 
 async def chat_response(server: socket.socket):
-    return server.recv(2048).decode(ENCODING).split()
+    return server.recv(2048).decode(ENCODING)
 
 
 async def run_bot(server: socket.socket) -> None:
+    chat_buffer = ""
+
     while True:
-        irc_response = await chat_response(server)
+        raw_irc_response = await chat_response(server)
 
-        if irc_response[0] == ARE_YOU_ALIVE:
-            await pong(server)
-        elif len(irc_response) < 2:
-            pass
-        elif irc_response[1] == CHAT_MSG:
-            try:
-                if response := CommandRouter(irc_response, logger).build_response():
-                    MESSAGE_LIMIT = 500
+        chat_buffer = chat_buffer + raw_irc_response
+        messages = chat_buffer.split("\r\n")
+        chat_buffer = messages.pop()
+        for message in messages:
+            if message == "PING :tmi.twitch.tv":
+                await pong(server)
+            elif len(message.split()) < 2:
+                continue
+            elif CHAT_MSG in message:
+                try:
+                    if response := CommandRouter(message, logger).build_response():
+                        MESSAGE_LIMIT = 500
 
-                    if isinstance(response, List):
-                        for r in response:
-                            await send_msg(server, f"{r}")
-                    elif len(response) > MESSAGE_LIMIT:
-                        # This is dumb!
-                        await send_msg(server, f"{response[:500]}")
-                        await send_msg(server, f"{''.join(response[:500])}")
-                        # await send_msg(server, f"{response[500:]}")
-                    else:
-                        await send_msg(server, f"{response}")
-            except:
-                print("\033[91m")
-                traceback.print_exc()
-                print("\033[0m")
+                        if isinstance(response, List):
+                            for r in response:
+                                await send_msg(server, f"{r}")
+                        elif len(response) > MESSAGE_LIMIT:
+                            # This is dumb!
+                            await send_msg(server, f"{response[:500]}")
+                            await send_msg(server, f"{response[500:]}")
+                        else:
+                            await send_msg(server, f"{response}")
+                except:
+                    print("\033[91m")
+                    traceback.print_exc()
+                    print("\033[0m")
 
 
 async def main():

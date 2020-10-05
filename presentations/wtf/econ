@@ -42,31 +42,13 @@ Give you access to
 
 What are commands?
 
-✍ 700+ viewer supplied soundeffects
+✍ 900+ viewer supplied soundeffects
 
 😏You can trigger on stream!
 
-🧞 Submit a Soundeffect
-
-!soundeffect YOUTUBE_ID command 00:00 00:04
-
-Must be 5 seconds or less
-
-Must NOT be terrible
-
-YOUTUBE ID
-YOUTUBE URL
-TWITCH URL
-
-(Note: A !streamlord must approve the command)
-
 🤔 How do I use access these commands?
 
-🍄  Mana
-
-🤠 Street Cred
-
-😎 Cool Points
+@woosh.jpg
 
 🥰  Chat and be a good person 🥰
 
@@ -76,7 +58,6 @@ We'll explain how this works
 
 As you chat you get 🤠 Street Cred
 
-
 🤠 Street Cred:
   - You earn from just chatting!
   - Can not be used to gain anything
@@ -84,19 +65,12 @@ As you chat you get 🤠 Street Cred
 
 ✊ Giving Props:
   !props @viewer
-  !endorse @viewer 10
-  !bigups random
+  !props @viewer 10
+  !props random
 
-You decide who you want to give you Street Cred to.
+When you give someone Street Cred
 
-When you give someone Street Cred,
-
-They become 😎  Cool Points:
-
-
-😎  Cool Points:
-  - You can !buy sounds
-  - You CANNOT transfer them
+They become 😎  Cool Point
 
 😎  Cool Points Command:
   - !buy command
@@ -166,3 +140,17 @@ All sounds from the "revolutionaries" are distributed among the Peace Keepers
 In both cases are punished
 
 More harsh during revolution
+
+🧞 Submit a Soundeffect
+
+!soundeffect YOUTUBE_URL command 00:00 00:04
+
+Must be 5 seconds or less
+
+Must NOT be terrible
+
+YOUTUBE URL
+TWITCH URL
+CBS URL
+
+(Note: A !streamlord must approve the command)

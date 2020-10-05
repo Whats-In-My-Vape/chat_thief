@@ -1,110 +1,176 @@
-from tinydb import Query
+from typing import List, Dict, Tuple, Optional, Any, Iterator
 
-from chat_thief.models.database import db_table
-from chat_thief.prize_dropper import random_soundeffect
-from chat_thief.soundeffects_library import SoundeffectsLibrary
-from chat_thief.config.log import error, warning, success
+from tinydb import Query  # type: ignore
 
-from chat_thief.models.command import Command
-from chat_thief.models.base_model import BaseModel
+from chat_thief.models.database import db_table  # type: ignore
+from chat_thief.prize_dropper import random_soundeffect  # type: ignore
+from chat_thief.audioworld.soundeffects_library import SoundeffectsLibrary  # type: ignore
+from chat_thief.config.log import error, warning, success  # type: ignore
+from chat_thief.models.command import Command  # type: ignore
+from chat_thief.models.base_db_model import BaseDbModel  # type: ignore
+from chat_thief.models.transaction import transaction  # type: ignore
 
 
-class User(BaseModel):
+class User(BaseDbModel):
     table_name = "users"
     database_path = "db/users.json"
 
+    def __init__(
+        self,
+        name: str,
+        cool_points: int = 0,
+        top_eight: List[str] = [],
+        custom_css: Optional[str] = None,
+        insured: Optional[bool] = False,
+    ):
+        self._top_eight = top_eight
+        self.name = name
+        self._cool_points = cool_points
+        self._custom_css = custom_css
+        self._insured = insured
+        self._raw_user = self._find_or_create_user()
+
     @classmethod
-    def top_three(cls):
+    def register_bot(cls, bot: str, creator: str) -> None:
+        cls.db().upsert(
+            {"is_bot": True, "creator": creator, "name": bot}, Query().name == bot
+        )
+
+    @classmethod
+    def bots(cls) -> List[str]:
+        return [bot["name"] for bot in cls.db().search(Query().is_bot == True)]
+
+    @classmethod
+    def total_street_cred(cls) -> int:
+        return cls._total_of_field("street_cred")
+
+    @classmethod
+    def total_cool_points(cls) -> int:
+        return cls._total_of_field("cool_points")
+
+    @classmethod
+    def _total_of_field(cls, field: str) -> int:
+        return sum([user[field] for user in cls.db().all()])
+
+    @classmethod
+    def richest_cool_points(cls) -> List[Dict]:
+        return cls.max_of_field("cool_points")
+
+    @classmethod
+    def max_of_field(cls, field: str) -> List[Dict]:
         users = [user for user in cls.db().all()]
-        top_3 = sorted(users, key=lambda user: user["cool_points"])[-3:]
-        top_3.reverse()
-        return top_3
+
+        if users:
+            # TODO: This ain't right
+            return sorted(users, key=lambda user: user.get(field, 0))[-1]
+        else:
+            return []
 
     @classmethod
-    def all(cls):
-        return [user["name"] for user in cls.db().all()]
+    def by_cool_points(cls) -> List[Dict]:
+        users = [user for user in cls.db().all()]
+        if users:
+            return list(reversed(sorted(users, key=lambda user: user["cool_points"])))
+        else:
+            return []
 
     @classmethod
-    def total_street_cred(cls):
-        return sum([user["street_cred"] for user in cls.db().all()])
-
-    @classmethod
-    def total_cool_points(self):
-        return sum([user["cool_points"] for user in self.db().all()])
-
-    @classmethod
-    def richest(cls):
-        users = [[user["name"], user["cool_points"]] for user in cls.db().all()]
+    def richest(cls) -> List[Tuple[str, int]]:
+        users = [(user["name"], user["cool_points"]) for user in cls.db().all()]
         return sorted(users, key=lambda user: user[1])
-
-    @classmethod
-    def richest_street_cred(cls):
-        users = [user for user in cls.db().all()]
-        return sorted(users, key=lambda user: user["street_cred"])[-1]
-
-    @classmethod
-    def richest_cool_points(cls):
-        users = [user for user in cls.db().all()]
-        return sorted(users, key=lambda user: user["cool_points"])[-1]
 
     # ====================================================================
 
-    # We should set self.user here
-    def __init__(self, name):
-        self.name = name
-        self._raw_user = self._find_or_create_user()
-
     # So this means, when we call, we find or init, thats fine!
-    def user(self):
+    def user(self) -> Dict:
         return self._find_or_create_user()
 
-    def stats(self):
-        return f"@{self.name} - Mana: {self.mana()} | Street Cred: {self.street_cred()} | Cool Points: {self.cool_points()}"
-        # return f"@{self.name} - Mana: {self.mana()} | Karma: {self.karma()} | Street Cred: {self.street_cred()} | Cool Points: {self.cool_points()}"
+    def stats(self) -> str:
+        return (
+            f"@{self.name} - Mana: {self.mana()} | "
+            f"Street Cred: {self.street_cred()} | "
+            f"Cool Points: {self.cool_points()} | "
+            f"Wealth: {self.wealth()} | "
+            f"Insured: {self.insured()}"
+        )
 
-    def commands(self):
-        return Command.for_user(self.name)
+    def commands(self) -> List[str]:
+        return [
+            permission["name"]
+            for permission in Command.for_user(self.name)
+            if permission["name"] != self.name
+        ]
 
     # Seems like it should be factored away
-    def street_cred(self):
-        return self.user()["street_cred"]
+    def street_cred(self) -> int:
+        return self._fetch_field("street_cred", 0)
 
-    def cool_points(self):
-        return self.user()["cool_points"]
+    def cool_points(self) -> int:
+        return self._fetch_field("cool_points", 0)
 
-    def mana(self):
-        return self.user()["mana"]
+    def custom_css(self) -> Optional[str]:
+        return self._fetch_field("custom_css", None)
 
-    def update_mana(self, amount):
-        return self._update_value("mana", amount)
+    def mana(self) -> int:
+        return self._fetch_field("mana", 0)
+
+    def is_bot(self) -> bool:
+        return self._fetch_field("is_bot", False)
+
+    def creator(self) -> Optional[str]:
+        return self._fetch_field("creator", None)
+
+    def top_eight(self) -> List[str]:
+        return self._fetch_field("top_eight", [])
+
+    def insured(self) -> bool:
+        return self._fetch_field("insured", False)
+
+    def _fetch_field(self, field: str, default: Any) -> Any:
+        return self.user().get(field, default)
+
+    # =============================================
+
+    def update_mana(self, amount: int) -> None:
+        self.update_value("mana", amount)
 
     # The ride or dies you have
-    def karma(self):
+    def karma(self) -> int:
         user_result = self.db().search(Query().ride_or_die == self.name)
         return len(user_result)
 
-    def kill(self):
-        return self._update_value("mana", -self.mana())
+    def kill(self) -> None:
+        self.update_value("mana", -self.mana())
 
-    def revive(self, mana=3):
-        return self._set_value("mana", mana)
+    def revive(self, mana: int = 3) -> None:
+        self.set_value("mana", mana)
 
-    def paperup(self, amount=100):
+    def paperup(self, amount: int = 100) -> str:
         self.update_street_cred(amount)
         self.update_cool_points(amount)
         return f"@{self.name} has been Papered Up"
 
+    def doc(self) -> Dict[str, Any]:
+        return {
+            "name": self.name,
+            "custom_css": self._custom_css,
+            "street_cred": 0,
+            "cool_points": self._cool_points,
+            "mana": 3,
+            "top_eight": self._top_eight,
+            "insured": self._insured,
+        }
+
     # This also might need a quick exit
-    def _find_affordable_random_command(self):
+    # This Might be potentially a problem
+    def _find_affordable_random_command(self) -> Command:
         if self.cool_points() < 1:
             raise ValueError("You can't afford anything!")
 
         looking_for_effect = True
 
         while looking_for_effect:
-            # Should we update this query to take cost parameter?
             effect = random_soundeffect()
-            # We need to check the cost
             command = Command(effect)
             if self.cool_points() >= command.cost() and not command.allowed_to_play(
                 self.name
@@ -112,70 +178,85 @@ class User(BaseModel):
                 looking_for_effect = False
         return command
 
-    def buy(self, effect):
-        if effect not in SoundeffectsLibrary.fetch_soundeffect_names():
-            raise ValueError(f"Invalid Effect: {effect}")
-
-        if Command(effect).allowed_to_play(self.name):
-            return f"@{self.name} already has access to !{effect}"
-
-        current_cool_points = self.cool_points()
-        command = Command(effect)
-        command_cost = command.cost()
-
-        if current_cool_points >= command_cost:
-            self.update_cool_points(-command_cost)
-            command.allow_user(self.name)
-            command.increase_cost()
-            return f"@{self.name} bought !{effect}"
-        else:
-            return f"@{self.name} not enough Cool Points to buy !{effect} - {current_cool_points}/{command_cost}"
-
-    # This is initial doc
-    def doc(self):
-        return {
-            "name": self.name,
-            "street_cred": 0,
-            "cool_points": 0,
-            "mana": 3,
-        }
-
-    def save(self):
-        return self._find_or_create_user()
-
-    def _find_or_create_user(self):
-        # We should be using get
-        user_result = self.db().search(Query().name == self.name)
+    # This is going to reveal some bugs
+    # or bad code
+    #  returning just a Dict
+    # or a Result from Query, which is a fancy dictionary
+    def _find_or_create_user(self) -> Dict:
+        user_result = self.db().get(Query().name == self.name)
         if user_result:
-            user_result = user_result[0]
             return user_result
         else:
             success(f"Creating New User: {self.doc()}")
-            from tinyrecord import transaction
 
             with transaction(self.db()) as tr:
                 tr.insert(self.doc())
             return self.doc()
 
-    def update_cool_points(self, amount=1):
-        self._update_value("cool_points", amount)
+    def update_cool_points(self, amount: int = 1) -> None:
+        return self.update_value("cool_points", amount)
 
-    def update_street_cred(self, amount=1):
-        self._update_value("street_cred", amount)
+    def update_street_cred(self, amount: int = 1) -> None:
+        self.update_value("street_cred", amount)
 
-    def set_ride_or_die(self, ride_or_die):
+    def clear_top_eight(self) -> None:
+        self.set_value("top_eight", [])
+
+    def set_ride_or_die(self, ride_or_die: str) -> None:
         if ride_or_die != self.name:
-            return self._set_value("ride_or_die", ride_or_die)
+            self.set_value("ride_or_die", ride_or_die)
 
-    # ===========
-    # Punishments
-    # ===========
+    def add_to_top_eight(self, friend: str) -> None:
+        current_eight = self.top_eight()
 
-    def remove_all_commands(self):
+        if len(current_eight) == 8:
+            raise ValueError("You can only have 8 in your Top 8!")
+
+        if friend not in current_eight and len(current_eight) < 8:
+            current_eight.append(friend)
+            self.set_value("top_eight", current_eight)
+
+    def remove_from_top_eight(self, enemy: str) -> None:
+        current_eight = self.top_eight()
+        if enemy in current_eight:
+            current_eight.remove(enemy)
+            self.set_value("top_eight", current_eight)
+
+    def top_wealth(self) -> int:
+        user_data = self.user()
+        user_commands = Command.for_user(self.name)
+        total_command_wealth = sum([command["cost"] for command in user_commands])
+        return user_data["cool_points"] + total_command_wealth
+
+    @classmethod
+    def wealthiest(cls) -> Tuple[str, int]:
+        richest = [
+            (user["name"], User(user["name"]).top_wealth()) for user in cls.db().all()
+        ]
+        return sorted(richest, key=lambda user: user[1])[-1][0]
+
+    def remove_all_commands(self) -> None:
         for command in self.commands():
             Command(command).unallow_user(self.name)
 
-    def bankrupt(self):
+    def bankrupt(self) -> str:
         self.update_street_cred(-self.street_cred())
         self.update_cool_points(-self.cool_points())
         return f"@{self.name} is now Bankrupt"
+
+    def wealth(self) -> int:
+        return (
+            sum([Command(command).cost() for command in self.commands()])
+            + self.cool_points()
+        )
+
+    def buy_insurance(self) -> str:
+        current_cool_points = self.cool_points()
+        if current_cool_points > 0:
+            cool_points = current_cool_points - 1
+            self.db().upsert(
+                {"cool_points": cool_points, "insured": True}, Query().name == self.name
+            )
+            return f"@{self.name} thank you for purchasing insurance"
+        else:
+            return f"YA Broke @{self.name} - it costs 1 Cool Point to buy insurance"

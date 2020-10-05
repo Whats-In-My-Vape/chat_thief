@@ -1,35 +1,30 @@
 import json
 import traceback
 
-from tinydb import Query
+from tinydb import Query  # type: ignore
 
 from chat_thief.models.database import db_table
-from chat_thief.models.base_model import BaseModel
+from chat_thief.models.transaction import transaction
+from chat_thief.models.base_db_model import BaseDbModel
 
 
-class PlaySoundeffectRequest(BaseModel):
-    def __init__(self, user=None, command=None):
+class PlaySoundeffectRequest(BaseDbModel):
+    table_name = "play_soundeffects"
+    database_path = "db/play_soundeffects.json"
+
+    def __init__(self, user=None, command=None, notification=True):
         self.user = user
+        self.notification = notification
         if command:
             self.command = command.lower()
-        play_soundeffect_requests_db_path = "db/play_soundeffects.json"
-        self.play_sfx_db = db_table(
-            play_soundeffect_requests_db_path, "play_soundeffects"
-        )
 
-    def save(self):
-        if self._is_valid_json():
-            from tinyrecord import transaction
+    def __len__(self):
+        return 0
 
-            with transaction(self.play_sfx_db) as tr:
-                tr.insert(self.doc())
-            return self.doc()
-        else:
-            return f"There was an issue with {self.doc()}"
-
+    # Deprecate this
     def command_count(self):
         # We should check if this is valid json
-        return len(self.play_sfx_db)
+        return self.count()
 
     def _is_valid_json(self):
         try:
@@ -43,16 +38,15 @@ class PlaySoundeffectRequest(BaseModel):
         return {
             "user": self.user,
             "command": self.command,
+            "notification": self.notification,
         }
 
     def pop_all_off(self):
-        from tinyrecord import transaction
-
-        all_effects = self.play_sfx_db.all()
+        all_effects = self.all()
 
         doc_ids_to_delete = [sfx.doc_id for sfx in all_effects]
         if doc_ids_to_delete:
-            with transaction(self.play_sfx_db) as tr:
+            with transaction(self.db()) as tr:
                 tr.remove(doc_ids=doc_ids_to_delete)
             return all_effects
         else:

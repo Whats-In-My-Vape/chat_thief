@@ -1,0 +1,149 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+    min-height: 100vh;
+    background: #191919;
+    font-size: 16px;
+}
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3.5rem;
+    background: #212121;
+}
+body {
+    background: transparent;
+    min-height: 100vh;
+    overflow: hidden;
+}
+span, a:nth-child(2), body *:nth-child(10) {
+    display: none;
+}
+h1 a {
+    position: fixed;
+    top: 1.25rem;
+    left: 2rem;
+    width: 121px;
+    height: 20px;
+    color: transparent;
+    background: url(https://i.imgur.com/c9dV2fq.png) no-repeat;
+}
+h2 {
+    position: absolute;
+    top: 40vw;
+    left: 1rem;
+    margin-top: 1rem;
+    margin-left: 4rem;
+    padding-top: 10rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+}
+h2:before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    margin-top: -1rem;
+    margin-left: -4rem;
+    width: 3rem;
+    height: 3rem;
+    background: url(https://github.com/shidotmoe.png);
+    background-size: cover;
+    border-radius: 50%;
+}
+h3 {
+    position: absolute;
+    top: 40vw;
+    left: 5rem;
+    max-width: 70vw;
+    padding-top: 14rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: normal;
+}
+ul {
+    position: absolute;
+    top: 4rem;
+    left: 60vw;
+    margin-left: 1rem;
+    font-size: 1.25rem;
+    text-align: left;
+    list-style: none;
+}
+ul li {
+    margin-left: 1rem;
+    padding: .5rem;
+    height: 11vw;
+}
+ul li:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15vw;
+    height: 10vw;
+    background: url(https://placekitten.com/300/200);
+    background-size: cover;
+}
+ul a {
+    position: absolute;
+    margin-top: .25rem;
+    left: 18vw;
+    color: #fff;
+    text-decoration: none;
+}
+br {
+    margin-top: 100vw;
+}
+ul a:after {
+    content: "Beginland";
+    color: rgba(255,255,255,.5);
+    font-size: .85rem;
+}
+figure {
+    width: 60vw;
+    height: 40vw;
+    position: relative;
+    top: 4.5rem;
+    left: 1rem;
+    color: #444;
+}
+figcaption {
+    position: absolute;
+    top: 40vw;
+    padding: 1rem 0;
+    font-size: 1.25rem;
+    color: #fff;
+    width: 135px;
+    text-overflow: clip;
+    white-space: nowrap;
+    overflow: hidden;
+}
+figure:after {
+    content: "1337 views • Jun 14, 2020";
+    position: absolute;
+    top: 40vw;
+    padding: 3rem 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: .95rem;
+}
+audio {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+figure:before {
+    content: "";
+    position: absolute;
+    width: 60vw;
+    height: 40vw;
+    left: 0;
+    background: url(https://media.giphy.com/media/vFKqnCdLPNOKc/source.gif);
+    background-size: cover;
+    z-index: -2;
+    
+}

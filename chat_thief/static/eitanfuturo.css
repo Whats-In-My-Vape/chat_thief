@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bungee+Inline&family=Bungee+Shade&family=Fascinate&family=Fascinate+Inline&family=Faster+One&family=Megrim&family=Press+Start+2P&display=swap');
+
+:root {
+  font-family: 'Bungee Inline', cursive;
+  font-size: 16px; 
+}
+
+* {
+  margin: 0;
+	padding: 1rem;
+	border: 0;
+  font-size: 100%;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+body {
+    background: url("https://fanart.tv/fanart/music/8247a3f2-3a8e-4256-b322-6c57b03a4e36/artistbackground/evans-bill-4f8f713c2be56.jpg") no-repeat right bottom fixed;
+  background-size: 780px 438px;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  height: 100vh;
+  width:  100vw;
+}
+
+h1 {
+  font-family: 'Bungee Shade', cursive;
+  font-size: 3rem;
+}
+
+h1::after {
+  content: " | THE REMIX"
+}
+
+h2 {
+  font-family: 'Faster One', cursive;
+  font-size: 4rem;
+  text-transform: uppercase;
+  align-self: center;
+  animation: shake .01s infinite;
+  transform-origin: center center;
+}
+
+h3 {
+  align-self: center;
+  font-family: 'Bungee Inline', cursive;
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: -5px 10px;
+  background-color: black;
+  opacity: .7;
+}
+
+tr {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+td {
+  width: 20%;
+  border: 1px dotted;
+  border-radius: 5px;
+  box-shadow: -5px 10px;
+  
+}
+
+a {
+  color: inherit;
+}
+
+ul {
+  width: fit-content;
+  align-self: center;
+  text-align: center;
+}
+
+li {
+  padding: 2rem;
+  border-radius: 5%;
+  opacity: .5;
+  text-transform: uppercase;
+  font-family: 'Fascinate Inline', cursive;
+}
+
+li:nth-child(even) {
+  animation: diagonal1  10s infinite;
+  transform-origin: center center;
+  animation-timing-function: cubic-bezier(.69,1.36,.63,-0.8);
+  background: darkred;
+  clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+}
+
+li:nth-child(odd) {
+  animation: diagonal2  10s infinite;
+  transform-origin: center center;
+  animation-timing-function: cubic-bezier(.69,1.36,.63,-0.8);
+  background: darkred;
+  clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(3px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes diagonal1 {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(100px, 0);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  75% {
+    transform: translate(-100px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes diagonal2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-100px, 0);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  75% {
+    transform: translate(100px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }

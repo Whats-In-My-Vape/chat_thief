@@ -1,0 +1,233 @@
+html{
+ height: 100%;
+ width: 100%;
+ margin: 1;
+ padding: 0;
+}
+
+.user{
+ height:100%;
+ width: 100%;
+ display: flex;
+ position: relative;
+ flex-direction: column;
+ font-size: 10pt;
+ color: #ffffff;
+ background-color: #008080;
+ background-image: url(https://i.ibb.co/m8ssyyw/beginworld.png);
+ background-size: 500px 300px;
+ background-repeat: no-repeat;
+ background-position: center;
+ padding: 0;
+ margin: 0;
+}
+
+.user a{
+ text-decoration: none;
+ color: inherit;
+}
+
+span{
+ height: 20px;
+ visibility: hidden;
+ z-index: 1;
+ color: #000000;
+}
+
+/* ----------  start menu */
+.start_menu{
+ width: 20%;
+ height: 61%;
+ border: 1px solid #000000;
+ border-top: 1px solid darkslategray;
+ visibility: hidden;
+ z-index: 2;
+ position: absolute;
+ bottom: 20px;
+ left: 0;
+ background-color: silver;
+ color: #000000;
+ padding: 11px;
+}
+
+
+/* ---------- start bar*/
+
+span:last-of-type{
+ visibility: visible;
+ position: absolute; 
+ bottom: 0px;
+ left: 0px;
+ right: 0px;
+ font-weight: bold;
+ text-indent: -9999px;
+ line-height: 0;
+}
+
+span:last-of-type::after{
+ content: url(https://win98icons.alexmeub.com/images/start-button.png);
+ display: block;
+ background-color: silver;
+ padding: 2px;
+ line-height: initial;
+ text-indent: 0;
+}
+
+
+/* ---------- beginworld link - computer */
+.user h1 a::before{
+ content: url(https://win98icons.alexmeub.com/images/computer_explorer-2.png);
+ display: block;
+ padding-left: 16px; 
+}
+
+.user h1{
+    width: 20px;
+    margin-top: 50px;
+    margin-left: 50px;
+    font-size: 10pt;
+}
+
+
+.user h1 a:active{
+ background-color: #000080;
+}
+
+
+/* ---------- user info */
+.user h2, .user h3{
+ color: inherit;
+ visibility: inherit;
+ text-align: center;
+}
+
+.user h2{
+ color: inherit;
+}
+
+
+/* ---------- top 8 */
+table{
+ display: inline;
+ visibility: visible;
+ padding-left: 10px;
+}
+
+td{
+ padding: 10px;
+}
+
+td a::before{
+ content: url(https://win98icons.alexmeub.com/images/directory_closed-4.png);
+ display: block;
+}
+
+td a:hover::before{
+ content: url(https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png);
+}
+
+
+/* ---------- sounds */
+span:first-of-type::before{
+ content: url(https://win98icons.alexmeub.com/images/directory_closed-4.png);
+ display: block;
+}
+
+span:first-of-type:hover::before{
+ content: url(https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png);
+}
+span:first-of-type{
+    width: 2%;
+    cursor: pointer;
+    visibility: visible;
+    color: inherit;
+    margin-left: 20px;
+}
+
+span:first-of-type::after{
+ content: 'Sounds'; 
+}
+
+.sounds_folder{
+    width: 80%; 
+    height: 60%;
+    border-top: 2px solid #efefef;
+    border-left: 2px solid #efefef;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    visibility: hidden;
+    background-color: #c6c6c6;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+.folder_title{
+ box-sizing: border-box;
+ display: flex;
+ flex-direction: row;
+ margin: 0;
+ padding: 0;
+ background-color: #000080;
+ font-weight: bold;
+ padding: 2px;
+ padding-left: 10px;
+ justify-content: space-between;
+}
+
+.folder_title::before{
+ content: "Sounds";
+}
+
+.folder_title > button::before{
+ content: 'x';
+}
+
+.folder_title > button{
+ border-top: 2px solid #efefef;
+ border-left: 2px solid #efefef;
+ border-right: 2px solid #000;
+ border-bottom: 2px solid #000;
+ display: block;
+ cursor: pointer;
+ background-color: #efefef;
+}
+
+ul{
+ width: 100%;
+ height: 95%;
+ border: 1px inset #000000;
+ grid-template-rows: auto 1fr;
+ grid-template-columns: repeat(5, 1fr);
+ display: grid;
+ box-sizing: border-box;
+ flex-direction: row;
+ overflow-y: scroll;
+ background-color: #ffffff;
+ color: #000000;
+ list-style-type: none;
+}
+
+ul li{
+ padding: 10px;
+}
+
+ul li a::before{
+ content: url(https://win98icons.alexmeub.com/icons/png/soundyel-4.png); 
+ display: block;
+}
+
+.user > h3:last-of-type{
+ display: none;
+}
+
+/* ---------- global classes */
+.visible{
+ visibility: visible;
+}
+

@@ -1,0 +1,106 @@
+<!doctype html> <title>Beginland</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/{{ user }}.css">
+
+    <meta charset="utf-8" http-equiv="refresh" content="{{ refresh_time }}">
+</head>
+
+<body class="user">
+  <h1><a href="{{ base_url }}">BeginWorld Finance</a></h1>
+  <h2>{{ user }}</h2>
+  <h3>{{ stats }}</h3>
+
+  <span>
+  {% if ride_or_die %}
+    | Ride Or Die: <a href="{{ base_url }}/{{ ride_or_die }}.html">
+      {{ ride_or_die }}</a>
+  {% endif %}
+  </span>
+
+	<table>
+		<tr>
+			{% for user in top8 %}
+				<td>
+					<a href="{{ base_url }}/{{ user }}.html"> {{ user }}</a>
+				</td>
+			{% endfor %}
+		</tr>
+	</table>
+
+  <ul>
+    {% for command in commands %}
+      <li>
+        <a href="{{ base_url }}/commands/{{ command['name'] }}.html">
+          {{ command['name'] }} | Cost {{ command['cost'] }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if command_file %}
+    <figure>
+        <figcaption>Sample Theme:</figcaption>
+        <audio
+            controls
+            src="{{ base_url }}/media/{{ command_file }}">
+                Your browser does not support the
+                <code>audio</code> element.
+        </audio>
+    </figure>
+  {% endif %}
+
+  <span>
+    To Style your page, in Beginbots Twitch Chat post
+    <br />
+    <code>!css URL_TO_RAW_CSS</code>
+  </span>
+
+  <br />
+
+  <span>
+  <a href="https://pastebin.com/">Pastebin</a>
+  </span>
+
+  <br />
+
+  <span>
+  <a href="https://gist.github.com/">Gist</a>
+  </span>
+
+  <br />
+  <span>MAKE SURE YOU LINK THE RAW CSS</span>
+
+  {% if widgets %}
+    <h3> Active Widgets</h3>
+    {% for widget in widgets %}
+      {{ widget }}
+    {% endfor %}
+  {% endif %}
+
+  {% if unapproved_widgets %}
+    <h3> Unapproved Widgets</h3>
+    {% for widget in unapproved_widgets %}
+      {{ widget }}
+    {% endfor %}
+  {% endif %}
+
+  {% if deactivated_widgets %}
+    <h3> Deactivated Widgets</h3>
+    To Remove the Widget, type in chat:
+    <br/>
+    <code>!removejs INSERT_WIDGET_NAME</code>
+    <br />
+    {% for widget in deactivated_widgets %}
+      {{ widget }}
+    {% endfor %}
+  {% endif %}
+
+</body>
+
+</html>
+
+{% for widget in widgets %}
+  <script src="{{ base_url }}/js/{{ widget }}"></script>
+{% endfor %}

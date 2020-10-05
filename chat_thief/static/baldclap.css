@@ -1,0 +1,474 @@
+/* curl https://mygeoangelfirespace.city/db/commands.json | jq */
+html{
+    background:#e0e0e0;
+    font-family:arial;
+}
+body {
+    max-width:1000px;
+    background:white;
+    margin:0 auto;
+    min-height:100vh;
+}
+@keyframes example {
+    100% {background: black; -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    55% {background: black; -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    0% {background: linear-gradient(180deg, rgba(254,255,0,1) 47%, rgba(0,255,239,1) 100%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    5% {background: linear-gradient(180deg, rgba(254,255,0,1) 0%, rgba(0,255,239,1) 45%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    10% {background: linear-gradient(180deg, rgba(0,255,239,1) 43%, rgba(9,255,0,1) 98%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    15% {background: linear-gradient(180deg, rgba(0,255,239,1) 0%, rgba(9,255,0,1) 47%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    20% {background: linear-gradient(180deg, rgba(9,255,0,1) 39%, rgba(255,0,241,1) 100%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    25% {background: linear-gradient(180deg, rgba(9,255,0,1) 0%, rgba(255,0,241,1) 45%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    30% {background: linear-gradient(180deg, rgba(255,0,241,1) 47%, rgba(255,0,0,1) 100%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    35% {background: linear-gradient(180deg, rgba(255,0,241,1) 0%, rgba(255,0,0,1) 46%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    40% {background: linear-gradient(180deg, rgba(255,0,0,1) 46%, rgba(0,18,255,1) 100%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    45% {background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,18,255,1) 46%);-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+    50% {background: linear-gradient(180deg, rgba(0,18,255,1) 46%,rgba(0,0,0,1) 0% );-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;}
+}
+h1 a, .home h1 a:first-of-type {
+    color:white;
+    text-decoration: none;
+    left:unset;
+    font-size:1.1em;
+    width:unset;
+    animation:unset;
+}
+h1, .home h1{
+    background:#02329a;
+    margin:0;
+    padding:50px 2%;
+    width:96%;
+
+    text-align:left;
+}
+h3, .home h1::after{
+    background:#6797ce;
+    color:white;
+    width:96%;
+    font-size:0.7em;
+    padding:10px 2%;
+    margin:0;
+}
+.home h1::after {
+    height:46px;
+    display:block;
+}
+.user h2 {
+    top:225px;
+
+}
+h2, .home h3, .home h2 a {
+    position:absolute;
+    background:unset;
+    display:block;
+    color:black;
+    font-size:.9em;
+    width:50%;
+    max-width:400px;
+    padding:0 2%;
+}
+.home h2 a {
+    position:unset;
+
+}
+.home h2 a:hover {
+    color:#f4c996;
+    
+}
+h2::after,.home h3::after {
+    display:block;
+    background-image:url('https://myspace.com/common/images/user.png');
+    background-size:200px 200px;
+    background-position:top left;
+    background-repeat:no-repeat;
+    height:400px;
+    font-size:.5em;
+    padding:0 10px 0px 210px;
+    content:"'but most of all, beginbot is my hero United States";
+
+}
+ h2:nth-of-type(2) {
+    display:none;
+}
+table::before {
+    border:1px solid black;
+    content:"BALDCLAP WAS HERE";
+    color:#000;
+    font-size:.7em;
+    padding:10px;
+}
+ul {
+    position:relative;
+    left:50%;
+    list-style-type: none;
+    padding:0 20px;
+    width:45%;
+    margin:0;
+}
+.home ul {
+    top:-300px;
+}
+.home h2::after {
+
+    height:250px;
+
+
+}
+.home h2 a:first-of-type,.home h1 a:first-of-type {
+    top:unset;
+    left:unset;
+    animation:unset;
+    font-size:.9em;
+}
+
+.home h2.stylish_users ~ h2.stylish_users::before{
+    height:46px;
+}
+.home a:first-of-type {
+    position:relative;
+    top:-370px;
+    display:inline-block;
+    list-style-type: none;
+    padding:0 20px;
+    width:45%;
+    margin:0 20px ;
+    color:black;
+    text-decoration: none;
+    font-size: 16px;
+    padding:10px 0;
+    font-size:1.5em;
+    font-weight:700;
+    animation: example 1.82s infinite;
+}
+ .home a {
+    position:relative;
+    left:50%;
+    top:-50px;
+    display:inline-block;
+    list-style-type: none;
+    padding:0 20px;
+    width:45%;
+    margin:0 20px ;
+    color:black;
+    text-decoration: none;
+    font-size: 16px;
+    padding:10px 0;
+}
+.home h3::after {
+    height:225px;
+}
+.home .stylish_link {
+    top:-300px;
+}
+.stylish_link ~ .stylish_link {
+    border-top:0;
+    margin-top:0;
+}
+.stylish_link  {
+    border-top:20px solid #f4c996;
+    margin-top:20px;
+}
+
+.home span {
+    display: block;
+    color: white;
+    /* height: 100px; */
+    background: #6797ce;;
+    position: relative;
+}
+.home .stylish_link a:hover {
+    color:#f4c996;
+}
+.home ul {
+    top:-300px;
+}
+.home 
+    h2 {
+        position:relative; 
+        /* top:200px;  */
+        display:block;
+        color:black;
+        font-size:.9em;
+        width:50%;
+        max-width:400px;
+        padding:0 2%;
+    
+}
+.home h3 {
+    position:relative;
+    margin: 25px 0;
+}
+.home ul li a,.home ul li a:first-of-type {
+    left:unset;
+    width:unset;
+    top:unset;
+    animation:unset;
+}
+
+li:first-of-type {
+    border-top:20px solid #f4c996;
+    margin-top:20px;
+}
+li {
+    color: #5f5f5f;
+    font-size: 16px;
+    padding:10px 0;
+}
+li a {
+    color:black;
+    text-decoration: none;
+}
+li a:hover {
+    color:#f4c996;
+}
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    display:block;
+    vertical-align: baseline;
+    background: transparent;
+}
+table {
+    position:relative;
+    left:50%;
+    display:block;
+    padding:20px;
+    width:49%;
+    border-collapse: collapse;
+}
+tbody {
+    display:block;
+}
+tr {
+    border-top:20px solid #f4c996;
+    margin-top:20px;
+    column-count: 4;
+    font-size: .5em;
+    column-gap: 11%;
+    display: block;
+    padding:20px 0 0 0;
+
+}
+td {
+    text-align: center;
+    width: 100%;
+}
+td a {
+    color:black;
+    text-decoration: none;
+}
+a:hover {
+    color:#02329a;
+}
+table tbody tr td a::after {
+    display:block;
+    background-image:url('https://myspace.com/common/images/user.png');
+    background-size:100% auto;
+    background-position:top left;
+    background-repeat:no-repeat;
+    height:120px;
+    padding:0 10px 0px 100%;
+    content:" ";
+}
+figure{
+    background:url('https://imgur.com/gtxRSyM.png');
+     background-size:100%;
+     width:400px;
+     color:transparent;
+     position:absolute;
+     top:500px;
+     height:75px;
+     max-height:85px;
+     margin:2%;
+ }
+ audio::-webkit-media-controls-enclosure{
+    background:transparent;
+    border-radius:0px
+}
+ figcaption{
+    display:none;
+
+ }
+
+ audio {
+     opacity:1;
+     width:100%;
+    height:100%;
+ }
+ /* audio::-webkit-media-controls-panel {
+     background:linear-gradient(13deg, rgba(217,217,217,1) 0%, rgba(161,161,161,1) 45%, rgba(233,233,233,1) 98%);
+ 
+ } */
+ 
+ audio::-webkit-media-controls-play-button:hover{
+    background-image:url('https://imgur.com/sUTj19O.png');
+    background-size:100%;
+ }
+ 
+ audio::-webkit-media-controls-play-button{
+     background-color:transparent;
+    background-image:url('https://imgur.com/t2pbcK0.png');
+    background-size:100%;
+    position:absolute;
+    left:83px;
+     top:14px;
+     width:55px;
+     height:25px;
+    display:block;
+ }
+
+ 
+ audio::-webkit-media-controls-current-time-display{
+     color:#0e0e0e;
+     position:absolute;
+     left:175px;
+     width:7%;
+     top:53px;
+     display:block;
+ }
+ 
+ audio::-webkit-media-controls-time-remaining-display{
+     display:none;
+ }
+ 
+ audio::-webkit-media-controls-timeline{
+      color:#0e0e0e;
+     position:absolute;
+     left:197px;
+     width:180px;
+     top:33px;
+     display:block;
+ }
+
+ audio::-webkit-media-controls-mute-button {
+    background:transparent;
+    color:#0e0e0e;
+    background:transparent;
+    position:absolute;
+    left:17%;
+    width:500%;
+    top:25%;
+    display:block;
+    z-index:999999;
+}
+ audio::-webkit-media-controls-volume-slider{
+      color:#0e0e0e;
+  
+     position:absolute;
+     left:24px;
+     width:140px;
+     top:2px;
+     display:block;
+     z-index:9999999;
+ }
+ span{
+     display:none;
+ }
+ @media only screen and (max-width:925px){
+    td a {
+        font-size:1.5vw;
+    }
+ }
+@media only screen and (max-width:800px){
+    ul {
+        left:0;
+        top:300px;
+        width:90%;
+        padding:5%;
+    }
+    h2{
+        width:90%;
+        padding:0 5%;
+    }
+    body{
+        padding-bottom: 300px;
+    }
+    table {
+        left:0;
+        top:350px;
+        width:90%;
+        padding:5%;
+    }
+    figure {
+        position: absolute;
+        margin-left:5%;
+        top:470px;
+        background-size:100% auto;
+        height:16vw;
+        max-width:400px;
+        max-height:76px;
+        width:90%;
+    }
+    
+}
+@media only screen and (max-width:469px) {
+    audio::-webkit-media-controls-play-button{
+      
+        left:18vw;
+         top:1vw;
+         width:11vw;
+         height:10vw;
+       
+     }
+    audio::-webkit-media-controls-mute-button {
+        position:relative;
+        left:17%;
+        width:100px;
+        top:25%;
+
+    }
+    audio::-webkit-media-controls-volume-slider{
+  
+        left:20%;
+        width:45%;
+        top:1.6vw;
+    }
+   audio::-webkit-media-controls-timeline{
+  
+    left:48.5%;
+    width:45%;
+    top:6vw;
+   
+}
+audio::-webkit-media-controls-current-time-display{
+  
+    left:12vw;
+    width:30vw;
+    top:11vw;
+   
+ 
+}
+}
+@media only screen and (max-width:369px){
+    h2 {
+        top:275px;
+    }
+    ul {
+        left:0;
+        top:300px;
+    }
+    ul::before {
+        font-size:.45em;
+    }
+    body{
+        padding-bottom: 300px;
+    }
+    figure {
+        top:550px;
+    }
+}

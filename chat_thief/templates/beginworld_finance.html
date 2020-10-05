@@ -1,0 +1,85 @@
+<!doctype html>
+
+<title>Beginland</title>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/style.css">
+  <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/{{ winner }}.css">
+  <meta charset="utf-8" http-equiv="refresh" content="{{ refresh_time }}">
+</head>
+
+<body class="home">
+  <h1><a href="{{ base_url }}">BeginWorld Finance</a></h1>
+  <h2>
+    <a href="{{ base_url }}/stats.html">Stats</a>
+  </h2>
+  <h2>
+    <a href="{{ base_url }}/bots.html">Bots</a>
+  </h2>
+  <h2>
+    <a href="{{ base_url }}/widgets.html">Widgets</a>
+  </h2>
+  <span class="updated_at">Last Updated: {{ updated_at }}</span>
+
+
+  {% if recently_updated_users %}
+    <h3>Recently Updated Pages</h3>
+    <ul>
+      {% for user in recently_updated_users %}
+          <li>
+            <a class="recently_updated_link" href="{{ base_url }}/{{ user }}.html"> {{ user }} </a>
+          </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h3>Homepage CSS Leaderboard</h3>
+  <span class="bestcss_tip">Vote for your favorite Users Styling with <b>!bestcss @user</b> in the chat</span>
+  <br />
+  {% for (user, votes) in candidates %}
+    <a href="{{ base_url }}/{{ user }}.html"> {{ votes }} - {{ user }}</a>
+    <br />
+  {% endfor %}
+
+  <br />
+  <br />
+
+  <h2 class="stylish_users">Stylish Users</h2>
+    {% for user in stylish_users %}
+      <a class="stylish_link" href="{{ base_url }}/{{ user }}.html"> {{ user }} </a> |
+    {% endfor %}
+
+  <hr />
+
+  <h2 class="users">Users</h2>
+
+  <ul>
+    {% for user in users %}
+        {% if user['name'] %}
+          <li>
+            <a href="{{ base_url }}/{{ user['name'] }}.html"> {{ user['name'] }} </a> |
+            Cool Points: {{ user['cool_points'] }} |
+            Street Cred: {{ user['street_cred'] }} |
+            Wealth: {{ user['wealth'] }} |
+            SFX Count: {{ user['sfx_count'] }}
+          </li>
+        {% endif %}
+    {% endfor %}
+  </ul>
+
+  <h2 class="commands">Commands</h2>
+
+  <ul>
+    {% for command in commands %}
+
+      {% if command['name'] %}
+
+        <li>
+          <a href="{{ base_url }}/commands/{{ command['name'] }}.html">{{ command['name'] }}</a>
+          | Cost: {{ command['cost'] }}
+        </li>
+
+      {% endif %}
+    {% endfor %}
+  </ul>
+</body>

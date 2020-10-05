@@ -2,25 +2,22 @@ from collections import Counter
 import traceback
 from datetime import datetime
 
-from tinydb import Query
+from tinydb import Query  # type: ignore
 
 from chat_thief.config.stream_lords import STREAM_LORDS, STREAM_GODS
 from chat_thief.models.database import db_table
-from chat_thief.sample_saver import SampleSaver
-from chat_thief.models.base_model import BaseModel
+from chat_thief.audioworld.sample_saver import SampleSaver
+from chat_thief.models.base_db_model import BaseDbModel
+from chat_thief.models.transaction import transaction
 
 
-class SoundeffectRequest(BaseModel):
+class SoundeffectRequest(BaseDbModel):
     table_name = "soundeffect_requests"
     database_path = "db/soundeffect_requests.json"
 
     @classmethod
     def get(cls, command):
         return cls.db().get(Query().command == command)
-
-    @classmethod
-    def all(cls):
-        return cls.db().all()
 
     @classmethod
     def unapproved_count(cls):
@@ -68,19 +65,32 @@ class SoundeffectRequest(BaseModel):
 
         clip_id = request["youtube_id"]
 
+        pt = SoundeffectRequest.sfx_cut_time(request["start_time"])
+
         if is_valid_url(clip_id):
             if "youtu" in clip_id:
-                pt = datetime.strptime(request["start_time"], "%M:%S")
-                total_seconds = pt.second + pt.minute * 60
-                return f"{clip_id}?t={total_seconds}"
+                if pt:
+                    total_seconds = pt.second + pt.minute * 60
+                    return f"{clip_id}?t={total_seconds}"
+                else:
+                    return clip_id
 
             # Assuming Twitch
             else:
                 return clip_id
         else:
-            pt = datetime.strptime(request["start_time"], "%M:%S")
-            total_seconds = pt.second + pt.minute * 60
-            return f"https://youtu.be/{request['youtube_id']}?t={total_seconds}"
+            if pt:
+                total_seconds = pt.second + pt.minute * 60
+                return f"https://youtu.be/{request['youtube_id']}?t={total_seconds}"
+            else:
+                return f"https://youtu.be/{request['youtube_id']}"
+
+    @staticmethod
+    def sfx_cut_time(cut_time):
+        try:
+            return datetime.strptime(cut_time, "%M:%S")
+        except Exception as e:
+            print(f"Error formatting Time: {cut_time}\n{e}")
 
     @classmethod
     def pop_all_off(cls):
@@ -132,7 +142,6 @@ class SoundeffectRequest(BaseModel):
         doc_ids_to_delete = [sfx.doc_id for sfx in results]
         if doc_ids_to_delete:
             print(f"Deleting the following IDs: {doc_ids_to_delete}")
-            from tinyrecord import transaction
 
             with transaction(cls.db()) as tr:
                 tr.remove(doc_ids=doc_ids_to_delete)
@@ -170,13 +179,11 @@ class SoundeffectRequest(BaseModel):
         results = self.db().search(Query().command == self.command)
         doc_ids_to_delete = [sfx.doc_id for sfx in results]
         if doc_ids_to_delete:
-            from tinyrecord import transaction
 
             with transaction(self.db()) as tr:
                 tr.remove(doc_ids=doc_ids_to_delete)
 
         print(f"Creating New SFX Request: {self.doc()}")
-        from tinyrecord import transaction
 
         with transaction(self.db()) as tr:
             tr.insert(self.doc())

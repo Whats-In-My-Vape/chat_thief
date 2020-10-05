@@ -8,29 +8,35 @@ from tests.support.database_setup import DatabaseConfig
 
 
 class FakeParser:
-    def __init__(self):
-        self.target_user = "coltrane"
+    def __init__(self, target_user="coltrane"):
+        self.target_user = target_user
 
 
 class TestBasicInfoRouter(DatabaseConfig):
     def test_la_libre(self):
         result = BasicInfoRouter("billy", "la_libre").route()
-        assert result == [
-            "PowerUpL La Libre PowerUpR",
-            "Total Votes: 0",
-            "Peace Count: 0 / 3",
-            "Revolution Count: 0 / 3",
-            "panicBasket Coup Cost: 1 panicBasket",
-        ]
+        assert result == " | ".join(
+            [
+                "PowerUpL La Libre PowerUpR",
+                "Total Votes: 0",
+                "Peace Count: 0 / 3",
+                "Revolution Count: 0 / 3",
+                "panicBasket Coup Cost: 1 panicBasket",
+            ]
+        )
 
     def test_stream_gods_and_lords(self, monkeypatch):
         result = BasicInfoRouter("sammy", "streamgods").route()
-        assert result == "beginbot beginbotbot stupac62 artmattdank"
+        assert "stupac62" in result
         result = BasicInfoRouter("sammy", "streamlords").route()
         assert "zerostheory" in result
 
     def test_shoutout(self):
         result = BasicInfoRouter("thugga", "so", ["beginbot"]).route()
+        assert result == "Shoutout twitch.tv/beginbot"
+        result = BasicInfoRouter("thugga", "so", ["$beginbot"]).route()
+        assert result == "Shoutout twitch.tv/%24beginbot"
+        result = BasicInfoRouter("thugga", "so", ["@beginbot"]).route()
         assert result == "Shoutout twitch.tv/beginbot"
 
     def test_bankrupt(self, monkeypatch):
@@ -60,3 +66,12 @@ class TestBasicInfoRouter(DatabaseConfig):
         assert user.cool_points() == 100
         assert user.street_cred() == 100
         assert result == "@coltrane has been Papered Up"
+
+    def test_paperup_no_one(self, monkeypatch):
+        def _fake_parse(self):
+            return FakeParser(None)
+
+        monkeypatch.setattr(CommandParser, "parse", _fake_parse)
+
+        result = BasicInfoRouter("beginbotbot", "paperup", []).route()
+        assert result == "You need to specify who to Paperup"

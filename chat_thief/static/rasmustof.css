@@ -1,0 +1,37 @@
+body{
+	overflow: hidden;
+	
+	background:rgb(180,180,180);
+
+	/*
+	animation-name: bodyanimation;
+  	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	*/
+	
+}
+body *{
+	transform: scale(0.5);
+}
+h1{
+	background-color: 	rgba(0,0,0,0.5);
+	padding: 1rem;
+	color: white;
+	border-radius: 20px;
+}
+a{
+	text-decoration: none;
+	color: white;
+}
+@keyframes bodyanimation {
+	0%   {
+		transform: rotate(0deg);
+		}
+	50%{
+		transform: rotate(180deg);
+		}
+	100%  {
+		transform: rotate(360deg);
+		}		
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+
+<title>Command Beginland</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/{{ winner }}.css">
+    <meta charset="utf-8" http-equiv="refresh" content="{{ refresh_time }}">
+</head>
+
+<body class="command">
+  <h1><a href="{{ base_url }}">BeginWorld Finance</a></h1>
+
+  <h2>Command Name: {{ name }}</h2>
+  <h3>Command Cost: {{ cost }}</h3>
+  <h3>Like to Hate Ratio: {{ like_to_hate_ratio }}%</h3>
+
+  <ul>
+    {% for user in users %}
+      <li>
+        <a href="{{ base_url }}/{{ user }}.html"> {{ user }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+
+<figure>
+    <figcaption>Sample Command:</figcaption>
+    <audio
+        controls
+        src="{{ base_url }}/media/{{ command_file }}">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+</figure>
+
+</body>

@@ -2,11 +2,12 @@ logs/*
 venv/*
 db/*
 tmp/*
+build/*
 tests/db/*
+tests/tmp/*
 .mypy_cache/*
 .whitelisted_users
 .welcome
-scripts/*
 .coverage
 
 __pycache__/

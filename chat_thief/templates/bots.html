@@ -1,0 +1,48 @@
+<!doctype html> <title>Beginland</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_url }}/styles/{{ winner }}.css">
+    <meta charset="utf-8" http-equiv="refresh" content="{{ refresh_time }}">
+</head>
+
+<body class="bot">
+  <h1><a href="{{ base_url }}">BeginWorld Finance</a></h1>
+
+  <span class="tip">
+    Vote a Bot out with:
+
+    <code>
+      !bothate @botname
+    </code>
+  </span>
+
+  <h2>Votes Against Bots</h2>
+
+  <ul>
+    {% for bot, votes in bot_votes %}
+      <li>
+        <a href="{{ base_url }}/{{ bot }}.html">
+          {{ votes }} - {{ bot }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <hr />
+
+  <h2>All Bots</h2>
+
+  <ul>
+    {% for bot in bots %}
+      <li>
+        <a href="{{ base_url }}/{{ bot }}.html">
+          {{ bot }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+</body>
+
+</html>

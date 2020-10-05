@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from chat_thief.models.command import Command
+from chat_thief.models.user import User
 from chat_thief.models.sfx_vote import SFXVote
 
 from tests.support.database_setup import DatabaseConfig
@@ -64,11 +65,11 @@ class TestCommand(DatabaseConfig):
     def test_silence_and_revive(self):
         subject = Command("damn")
         subject.save()
-        assert subject.health() == 5
+        assert subject.health() == 3
         subject.silence()
         assert subject.health() == 0
         subject.revive()
-        assert subject.health() == 5
+        assert subject.health() == 3
 
     def test_most_expensive_command(self):
         assert not Command.most_expensive()
@@ -83,3 +84,14 @@ class TestCommand(DatabaseConfig):
         win_cmd.save()
         win_cmd.increase_cost(10)
         assert Command.most_expensive()["name"] == "mchdtmd"
+
+    def test_decay(self):
+        command = Command("damn", 10)
+        command.save()
+        command.decay()
+        assert command.cost() == 9
+
+        command = Command("handbag")
+        command.save()
+        command.decay()
+        assert command.cost() == 1

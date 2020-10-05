@@ -1,23 +1,30 @@
-# Blacklist Command
-# We need stream lords
-# Move this to a file
+from typing import List
 
-STREAM_GODS = [
+STREAM_GODS: List[str] = [
     "beginbot",
     "beginbotbot",
     "stupac62",
     "artmattdank",
+    "syoonee",
+    # "zanuss",
+    "sunny_ai",
 ]
 
-STREAM_PEASANTS = []
+STREAM_PEASANTS: List[str] = []
 
-STREAM_KINGS = []
+STREAM_KINGS: List[str] = []
 
-STREAM_MERCHANTS = []
+STREAM_MERCHANTS: List[str] = []
 
-STREAM_PIMPS = ["disk1of5"]
+STREAM_PIMPS: List[str] = ["disk1of5"]
 
-STREAM_LORDS = [
+STREAM_LORDS: List[str] = [
+    "strager",
+    "zanuss",
+    "nomorequity",
+    "beginbot",
+    "cachesking",
+    "waleeboy",
     "arbaya",
     "baldclap",
     "detlion1643",
@@ -36,4 +43,14 @@ STREAM_LORDS = [
     "zerostheory",
     "andrelamus",
     "syoonee",
+    "loner_lena",
+    "aquafunkalisticbootywhap",
+    "usernamesarelame",
+    "biged_twitch",
+    "punchypenguin",
+    "rockerboo",
+    "airtonzanon",
+    "pedrovalentimmm",
+    "eleentje",
+    "rednave21",
 ] + STREAM_GODS

@@ -4,8 +4,10 @@ from chat_thief.chat_parsers.command_parser import CommandParser
 from chat_thief.welcome_committee import WelcomeCommittee
 from chat_thief.models.user import User
 
+from tests.support.database_setup import DatabaseConfig
 
-class TestCommandParser:
+
+class TestCommandParser(DatabaseConfig):
     @pytest.fixture(autouse=True)
     def mock_present_users(self, monkeypatch):
         def _mock_present_users(self):
@@ -135,3 +137,35 @@ class TestCommandParser:
         assert result.target_user == "random"
         assert result.target_sfx == "random"
         assert result.requester == user
+
+    def test_amount(self):
+        user = "fake_user"
+        args = ["beginbot", "10"]
+        subject = CommandParser(user, "props", args)
+        result = subject.parse()
+
+        assert result.target_command == "props"
+        assert result.target_user == "beginbot"
+        assert result.target_sfx == None
+        assert result.amount == 10
+
+    def test_amount_with_seconds(self):
+        user = "fake_user"
+        args = ["beginbot", "10s"]
+        subject = CommandParser(user, "props", args)
+        result = subject.parse()
+
+        assert result.target_command == "props"
+        assert result.target_user == "beginbot"
+        assert result.target_sfx == None
+        assert result.amount == 10
+
+    def test_the_1080(self):
+        user = "fake_user"
+        args = ["1080"]
+        subject = CommandParser(user, "dropeffect", args)
+        result = subject.parse()
+
+        assert result.target_command == "dropeffect"
+        assert result.target_sfx == "1080"
+        assert result.amount == 1
